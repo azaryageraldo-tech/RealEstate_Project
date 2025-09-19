@@ -1,0 +1,53 @@
+# Composer dependencies
+/vendor
+
+# Node dependencies
+/node_modules
+
+# Laravel Vite build artifacts
+/public/build
+/public/hot
+
+# Laravel storage files
+/public/storage
+/storage/app/public
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views/*.php
+/storage/logs/*.log
+/storage/*.key
+
+# Laravel bootstrap cache
+/bootstrap/cache/*.php
+
+# Environment files
+.env
+.env.*
+!.env.example
+.env.backup
+
+# PHPUnit
+/.phpunit.cache
+.phpunit.result.cache
+
+# IDE settings folders
+/.vscode
+/.idea
+/.fleet
+
+# Development environments
+Homestead.json
+Homestead.yaml
+/.sail/
+auth.json
+
+# Debug logs
+npm-debug.log
+yarn-error.log
+error_log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+._*
