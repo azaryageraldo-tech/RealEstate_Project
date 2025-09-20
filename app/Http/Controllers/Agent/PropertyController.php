@@ -49,19 +49,11 @@ class PropertyController extends Controller
 
         $imagePath = $request->file('image_url')->store('properties', 'public');
 
-        Property::create([
+        Property::create(array_merge($validated, [
             'user_id' => Auth::id(),
-            'name' => $validated['name'],
-            'location' => $validated['location'],
-            'price' => $validated['price'],
-            'type' => $validated['type'],
-            'description' => $validated['description'],
             'image_url' => $imagePath,
-            'bedrooms' => $validated['bedrooms'],
-            'bathrooms' => $validated['bathrooms'],
-            'surface_area' => $validated['surface_area'],
             'status' => 'Tersedia',
-        ]);
+        ]));
 
         return redirect()->route('agent.properties.index')->with('success', 'Properti berhasil ditambahkan!');
     }
@@ -72,8 +64,11 @@ class PropertyController extends Controller
     public function show(Property $property)
     {
         if (Auth::id() !== $property->user_id) {
-            abort(403, 'AKSI TIDAK DIIZINKAN.');
+            abort(403);
         }
+
+        $viewCount = $property->views()->count();
+        $favoriteCount = $property->favoritedByUsers()->count();
 
         // Ambil 3 properti lain untuk ditampilkan sebagai "properti serupa"
         $relatedProperties = Property::where('id', '!=', $property->id)
@@ -82,7 +77,7 @@ class PropertyController extends Controller
                                      ->take(3)
                                      ->get();
 
-        return view('agent.properties.show', compact('property', 'relatedProperties'));
+        return view('agent.properties.show', compact('property', 'relatedProperties', 'viewCount', 'favoriteCount'));
     }
 
     /**
@@ -106,14 +101,16 @@ class PropertyController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string',
-            'price' => 'required|numeric',
-            'type' => 'required|in:Rumah,Apartemen,Tanah,Ruko',
-            'description' => 'required|string',
-            'image_url' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Opsional
-            // Rules lainnya bisa ditambahkan jika field lain juga diedit dari form ini
-            'status' => 'sometimes|in:Tersedia,Terjual,Disewa',
+            'name' => 'sometimes|required|string|max:255',
+            'location' => 'sometimes|required|string',
+            'price' => 'sometimes|required|numeric',
+            'type' => 'sometimes|required|in:Rumah,Apartemen,Tanah,Ruko',
+            'description' => 'sometimes|required|string',
+            'image_url' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'bedrooms' => 'sometimes|required|integer',
+            'bathrooms' => 'sometimes|required|integer',
+            'surface_area' => 'sometimes|required|integer',
+            'status' => 'sometimes|required|in:Tersedia,Terjual,Disewa',
         ]);
         
         if ($request->hasFile('image_url')) {
@@ -125,7 +122,7 @@ class PropertyController extends Controller
 
         $property->update($validated);
 
-        return redirect()->route('agent.properties.index')->with('success', 'Properti berhasil diperbarui!');
+        return back()->with('success', 'Properti berhasil diperbarui!');
     }
 
     /**

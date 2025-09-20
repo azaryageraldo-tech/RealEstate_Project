@@ -10,8 +10,8 @@ class Property extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', // <-- TAMBAHKAN INI
-        'status', // <-- TAMBAHKAN INI JUGA
+        'user_id',
+        'status',
         'name',
         'location',
         'price',
@@ -22,4 +22,17 @@ class Property extends Model
         'bathrooms',
         'surface_area',
     ];
+
+    public function views()
+    {
+        return $this->hasMany(PropertyView::class);
+    }
+
+    /**
+     * Relasi untuk user yang memfavoritkan properti ini.
+     */
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'property_user');
+    }
 }

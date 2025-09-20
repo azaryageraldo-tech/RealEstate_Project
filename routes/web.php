@@ -8,6 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
 use App\Http\Controllers\Agent\PropertyController as AgentPropertyController;
+use App\Http\Controllers\Agent\ProfileController as AgentProfileController;
 
 // == HALAMAN PUBLIK ==
 Route::get('/', [LandingPageController::class, 'index'])->name('landing');
@@ -30,6 +31,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
 Route::middleware(['auth', 'verified', 'role:agent'])->prefix('agent')->name('agent.')->group(function () {
     Route::get('/dashboard', [AgentDashboardController::class, 'index'])->name('dashboard');
     Route::resource('properties', AgentPropertyController::class);
+     // TAMBAHKAN DUA ROUTE INI UNTUK PROFIL AGEN
+    Route::get('/profile', [AgentProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [AgentProfileController::class, 'update'])->name('profile.update');
 });
 
 // Route untuk Panel Pengguna Biasa (User)

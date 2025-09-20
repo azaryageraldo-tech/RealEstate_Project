@@ -19,14 +19,16 @@ class UserSeeder extends Seeder
             'email' => 'admin@propertikita.com',
             'role' => 'admin',
             'password' => Hash::make('password'),
+            'phone' => '6281200000001', // Tambahkan nomor dummy jika perlu
         ]);
 
-        // 2. Buat Pengguna Agen
+        // 2. Buat Pengguna Agen (Sudah digabung dan diperbaiki)
         User::create([
             'name' => 'Agen Properti',
             'email' => 'agent@propertikita.com',
             'role' => 'agent',
             'password' => Hash::make('password'),
+            'phone' => '6281200000002', // Nomor telepon sekarang di sini
         ]);
 
         // 3. Buat Pengguna Biasa
@@ -35,6 +37,9 @@ class UserSeeder extends Seeder
             'email' => 'user@propertikita.com',
             'role' => 'user',
             'password' => Hash::make('password'),
+            // phone bisa null untuk user biasa
         ]);
+
+        // Blok duplikat untuk agen sudah dihapus dari sini.
     }
 }
