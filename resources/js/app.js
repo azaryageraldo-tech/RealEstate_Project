@@ -24,4 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
             path: '/images/Home.json' // Path ke file animasi login Anda
         });
     }
+
+     const lottieRegisterContainer = document.querySelector('#lottie-register-container');
+    if (lottieRegisterContainer) {
+        lottie.loadAnimation({
+            container: lottieRegisterContainer,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: '/images/REAL ESTATE ERROR 404.json' // Path ke file animasi baru
+        });
+    }
 });

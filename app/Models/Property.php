@@ -10,6 +10,8 @@ class Property extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id', // <-- TAMBAHKAN INI
+        'status', // <-- TAMBAHKAN INI JUGA
         'name',
         'location',
         'price',

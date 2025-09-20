@@ -28,7 +28,7 @@
                     <ul class="space-y-3">
                         <li><a href="{{ route('about') }}" class="hover:text-blue-400 transition">Tentang Kami</a></li>
                         <li><a href="{{ route('contact') }}" class="hover:text-blue-400 transition">Hubungi Kami</a></li>
-                        <li><a href="{{ route('faq') }}" class="hover:text-blue-400 transition">FAQ</a></li>
+                        
                     </ul>
                 </div>
                 
