@@ -11,6 +11,8 @@ use App\Http\Controllers\Agent\PropertyController as AgentPropertyController;
 use App\Http\Controllers\Agent\ProfileController as AgentProfileController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\PropertyController as AdminPropertyController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
 
 // == HALAMAN PUBLIK ==
 Route::get('/', [LandingPageController::class, 'index'])->name('landing');
@@ -31,6 +33,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::resource('users', AdminUserController::class);
     // TAMBAHKAN ROUTE RESOURCE INI UNTUK MANAJEMEN PROPERTI
     Route::resource('properties', AdminPropertyController::class);
+     Route::resource('posts', AdminPostController::class); 
+     Route::resource('pages', AdminPageController::class);
 });
 
 // Route untuk Panel Agen

@@ -4,53 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use App\Models\Testimonial;
+use App\Models\Page;
+use App\Models\Property;
 use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
 {
     /**
-     * Menampilkan halaman utama (landing page) beserta data testimoni dan FAQ.
+     * Menampilkan halaman utama (landing page) dengan data dinamis.
      */
     public function index()
     {
-        // 1. Mengambil 3 data testimoni terbaru dari database
         $testimonials = Testimonial::latest()->take(3)->get();
-
-        // 2. Menyiapkan data FAQ secara statis
-        $faqs = [
-            [
-                'question' => 'Bagaimana cara mendaftar untuk menjual properti?',
-                'answer' => 'Anda dapat mendaftar sebagai agen melalui halaman registrasi kami. Setelah akun Anda diverifikasi, Anda akan mendapatkan akses ke dashboard untuk mulai memasang listing properti Anda.'
-            ],
-            [
-                'question' => 'Apakah ada biaya untuk memasang iklan properti?',
-                'answer' => 'Kami menawarkan beberapa paket, termasuk paket gratis dengan batasan jumlah listing. Untuk fitur lebih lanjut dan listing tanpa batas, Anda dapat memilih paket premium kami yang terjangkau.'
-            ],
-            [
-                'question' => 'Bagaimana cara menghubungi agen properti?',
-                'answer' => 'Untuk melihat informasi kontak agen, Anda harus login terlebih dahulu. Setelah login, Anda akan melihat detail kontak di setiap halaman detail properti.'
-            ],
-        ];
-
-        // 3. Mengirim kedua data (testimonials dan faqs) ke view
-        return view('pages.landing', compact('testimonials', 'faqs'));
+        $properties = Property::where('status', 'Tersedia')->latest()->take(3)->get();
+        
+        // Mengambil konten FAQ dari database
+        $faqs = Page::where('slug', 'faq')->first(); // Menggunakan variabel $faqs
+        
+        // Kirim semua data ke view, pastikan 'faqs' ada di dalam compact()
+        return view('pages.landing', compact('testimonials', 'properties', 'faqs'));
     }
 
     /**
-     * Menampilkan halaman "Tentang Kami".
+     * Menampilkan halaman "Tentang Kami" dari database.
      */
     public function about()
     {
-        return view('pages.about');
+        $page = Page::where('slug', 'tentang-kami')->firstOrFail();
+        return view('pages.about', compact('page'));
     }
 
     /**
-     * Menampilkan halaman "Kontak".
+     * Menampilkan halaman "Kontak" dari database.
      */
     public function contact()
     {
-        return view('pages.contact');
+        $page = Page::where('slug', 'kontak')->firstOrFail();
+        return view('pages.contact', compact('page'));
     }
-
-    // Method faq() tidak lagi diperlukan karena FAQ sekarang menjadi bagian dari landing page.
 }

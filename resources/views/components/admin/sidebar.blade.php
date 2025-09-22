@@ -45,6 +45,26 @@ $routeName = request()->route()->getName();
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
             <span>Manajemen Properti</span>
         </a>
+
+        {{-- Link Kelola Artikel --}}
+        <a href="{{ route('admin.posts.index') }}" @class([
+            'flex items-center gap-4 px-6 py-4 transition',
+            'bg-blue-600 text-white' => str_contains($routeName, 'admin.posts'),
+            'text-slate-400 hover:bg-slate-700 hover:text-white' => !str_contains($routeName, 'admin.posts')
+        ])>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 11a2 2 0 01-2-2V7a2 2 0 00-2-2H9a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2z"></path></svg>
+            <span>Kelola Artikel</span>
+        </a>
+
+        {{-- TAMBAHKAN MENU KELOLA HALAMAN --}}
+        <a href="{{ route('admin.pages.index') }}" @class([
+            'flex items-center gap-4 px-6 py-4 transition',
+            'bg-blue-600 text-white' => str_contains($routeName, 'admin.pages'),
+            'text-slate-400 hover:bg-slate-700 hover:text-white' => !str_contains($routeName, 'admin.pages')
+        ])>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span>Kelola Halaman</span>
+        </a>
     </nav>
 
     <div class="p-6 border-t border-slate-700">
