@@ -23,6 +23,17 @@ class Property extends Model
         'surface_area',
     ];
 
+    /**
+     * Relasi untuk mendapatkan pemilik (agen) dari properti ini.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relasi untuk menghitung views.
+     */
     public function views()
     {
         return $this->hasMany(PropertyView::class);

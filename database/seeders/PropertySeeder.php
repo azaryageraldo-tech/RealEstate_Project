@@ -25,7 +25,7 @@ class PropertySeeder extends Seeder
                 'name' => 'Rumah Mewah di Pondok Indah',
                 'location' => 'Jakarta Selatan',
                 'price' => 3500000000,
-                'status' => 'Tersedia',
+                'status' => 'Menunggu Review',
                 'type' => 'Rumah',
                 'description' => 'Rumah modern dengan fasilitas lengkap, kolam renang pribadi, dan taman yang asri.',
                 'image_url' => 'properties/dummy1.jpg', // Path dummy
@@ -39,7 +39,7 @@ class PropertySeeder extends Seeder
                 'name' => 'Apartemen Sudirman Park',
                 'location' => 'Jakarta Pusat',
                 'price' => 1200000000,
-                'status' => 'Tersedia',
+                'status' => 'Menunggu Review',
                 'type' => 'Apartemen',
                 'description' => 'Apartemen 2 kamar tidur dengan pemandangan kota yang menakjubkan.',
                 'image_url' => 'properties/dummy2.jpg', // Path dummy
@@ -53,7 +53,7 @@ class PropertySeeder extends Seeder
                 'name' => 'Villa Asri di Sentul',
                 'location' => 'Bogor',
                 'price' => 2800000000,
-                'status' => 'Terjual',
+                'status' => 'Menunggu Review',
                 'type' => 'Rumah',
                 'description' => 'Villa dengan konsep alam, udara sejuk, dan pemandangan pegunungan.',
                 'image_url' => 'properties/dummy3.jpg', // Path dummy

@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
 use App\Http\Controllers\Agent\PropertyController as AgentPropertyController;
 use App\Http\Controllers\Agent\ProfileController as AgentProfileController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\PropertyController as AdminPropertyController;
 
 // == HALAMAN PUBLIK ==
 Route::get('/', [LandingPageController::class, 'index'])->name('landing');
@@ -25,6 +27,10 @@ Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('blog.sho
 // Route untuk Panel Admin
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    // TAMBAHKAN ROUTE RESOURCE INI UNTUK MANAJEMEN USER
+    Route::resource('users', AdminUserController::class);
+    // TAMBAHKAN ROUTE RESOURCE INI UNTUK MANAJEMEN PROPERTI
+    Route::resource('properties', AdminPropertyController::class);
 });
 
 // Route untuk Panel Agen

@@ -8,22 +8,24 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased bg-slate-100">
-    <div x-data="{ sidebarOpen: true }" class="flex min-h-screen">
+    <div class="flex h-screen overflow-hidden">
         <x-admin.sidebar />
 
-        <main class="flex-1">
+        <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+            
             @if (isset($header))
-                <header class="bg-white shadow">
+                <header class="sticky top-0 bg-slate-100/80 backdrop-blur-lg z-10 border-b">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
             @endif
-            
-            <div class="py-12">
-                {{ $slot }}
-            </div>
-        </main>
+
+            <main>
+                 {{ $slot }}
+            </main>
+
+        </div>
     </div>
 </body>
 </html>

@@ -11,7 +11,9 @@ class PropertyController extends Controller
     // Menampilkan semua properti
     public function index()
     {
-        $properties = Property::latest()->paginate(9); // Ambil data terbaru, 9 per halaman
+        $properties = Property::where('status', 'Tersedia') // <-- Tambahkan kondisi ini
+                          ->latest()
+                          ->paginate(9);// Ambil data terbaru, 9 per halaman
         return view('pages.properti.index', compact('properties'));
     }
 

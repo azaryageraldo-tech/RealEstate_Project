@@ -52,7 +52,8 @@ class PropertyController extends Controller
         Property::create(array_merge($validated, [
             'user_id' => Auth::id(),
             'image_url' => $imagePath,
-            'status' => 'Tersedia',
+            'status' => 'Menunggu Review', 
+            
         ]));
 
         return redirect()->route('agent.properties.index')->with('success', 'Properti berhasil ditambahkan!');
