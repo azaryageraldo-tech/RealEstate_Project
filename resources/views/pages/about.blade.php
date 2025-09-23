@@ -14,7 +14,7 @@
     </section>
 
     <section class="py-20 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose lg:prose-xl">
             {!! $page->content !!}
         </div>
     </section>

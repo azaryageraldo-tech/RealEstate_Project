@@ -5,7 +5,7 @@
 
     <x-landing.search-bar />
 
-    <x-landing.featured-properties />
+    <x-landing.featured-properties :properties="$properties" />
 
     <x-landing.testimonials :testimonials="$testimonials" />
 
