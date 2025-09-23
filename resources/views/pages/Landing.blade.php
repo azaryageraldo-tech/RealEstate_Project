@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-landing.hero />
+    <x-landing.hero :banner="$banner" />
 
     <x-landing.search-bar />
 

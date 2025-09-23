@@ -6,37 +6,27 @@ use Illuminate\Routing\Controller;
 use App\Models\Testimonial;
 use App\Models\Page;
 use App\Models\Property;
+use App\Models\Banner;
 use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
 {
-    /**
-     * Menampilkan halaman utama (landing page) dengan data dinamis.
-     */
     public function index()
     {
         $testimonials = Testimonial::latest()->take(3)->get();
         $properties = Property::where('status', 'Tersedia')->latest()->take(3)->get();
+        $faqs = Page::where('slug', 'faq')->first();
+        $banner = Banner::where('is_active', true)->latest()->first();
         
-        // Mengambil konten FAQ dari database
-        $faqs = Page::where('slug', 'faq')->first(); // Menggunakan variabel $faqs
-        
-        // Kirim semua data ke view, pastikan 'faqs' ada di dalam compact()
-        return view('pages.landing', compact('testimonials', 'properties', 'faqs'));
+        return view('pages.landing', compact('testimonials', 'properties', 'faqs', 'banner'));
     }
 
-    /**
-     * Menampilkan halaman "Tentang Kami" dari database.
-     */
     public function about()
     {
         $page = Page::where('slug', 'tentang-kami')->firstOrFail();
         return view('pages.about', compact('page'));
     }
 
-    /**
-     * Menampilkan halaman "Kontak" dari database.
-     */
     public function contact()
     {
         $page = Page::where('slug', 'kontak')->firstOrFail();

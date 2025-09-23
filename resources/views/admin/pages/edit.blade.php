@@ -5,16 +5,7 @@
         </h2>
     </x-slot>
 
-    {{-- Script untuk Rich Text Editor (TinyMCE) --}}
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        tinymce.init({
-            selector: 'textarea#content',
-            plugins: 'code table lists image link fullscreen',
-            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table | image link | fullscreen',
-            height: 500,
-        });
-    </script>
+    {{-- Script TinyMCE sudah dihapus --}}
 
     <div class="py-12 max-w-4xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white p-8 rounded-xl shadow-md" data-aos="fade-up">
@@ -27,13 +18,13 @@
                 <div>
                     <label for="title" class="font-semibold text-gray-700">Judul Halaman</label>
                     <input type="text" name="title" id="title" value="{{ old('title', $page->title) }}" required class="mt-2 w-full px-4 py-3 bg-slate-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
+                
+                <input type="hidden" name="slug" value="{{ $page->slug }}">
 
                 <div>
-                    <label for="content" class="font-semibold text-gray-700">Isi Konten</label>
-                    <textarea name="content" id="content" class="mt-2 w-full">{{ old('content', $page->content) }}</textarea>
-                    @error('content') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    <label for="content" class="font-semibold text-gray-700">Isi Konten (Boleh menggunakan tag HTML)</label>
+                    <textarea name="content" id="content" rows="15" class="mt-2 w-full px-4 py-3 bg-slate-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('content', $page->content) }}</textarea>
                 </div>
 
                 <div>

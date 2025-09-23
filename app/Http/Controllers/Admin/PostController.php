@@ -3,70 +3,94 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Page;
+use App\Models\Post; // <-- Menggunakan model Post
 use Illuminate\Http\Request;
-use Illuminate\Support\Str; // <-- Import Str facade untuk slug
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
-class PageController extends Controller
+class PostController extends Controller // <-- Nama class diubah menjadi PostController
 {
     /**
-     * Menampilkan daftar semua halaman statis.
+     * Menampilkan daftar semua artikel.
      */
     public function index()
     {
-        $pages = Page::all();
-        return view('admin.pages.index', compact('pages'));
+        $posts = Post::latest()->paginate(10);
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
-     * Menampilkan form untuk membuat halaman baru.
+     * Menampilkan form untuk membuat artikel baru.
      */
     public function create()
     {
-        return view('admin.pages.create');
+        return view('admin.posts.create');
     }
 
     /**
-     * Menyimpan halaman baru ke database.
+     * Menyimpan artikel baru ke database.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|alpha_dash|max:255|unique:pages',
-            'content' => 'nullable|string',
+            'excerpt' => 'required|string|max:255',
+            'body' => 'required|string',
+            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        Page::create($validated);
+        $validated['image_url'] = $request->file('image_url')->store('posts', 'public');
+        $validated['slug'] = Str::slug($validated['title']);
+        $validated['published_at'] = now();
 
-        return redirect()->route('admin.pages.index')->with('success', 'Halaman baru berhasil dibuat.');
+        Post::create($validated);
+
+        return redirect()->route('admin.posts.index')->with('success', 'Artikel berhasil dibuat.');
     }
 
     /**
-     * Menampilkan form untuk mengedit halaman.
+     * Menampilkan form untuk mengedit artikel.
      */
-    public function edit(Page $page)
+    public function edit(Post $post)
     {
-        return view('admin.pages.edit', compact('page'));
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
-     * Memperbarui konten halaman di database.
+     * Memperbarui artikel di database.
      */
-    public function update(Request $request, Page $page)
+    public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|alpha_dash|max:255|unique:pages,slug,' . $page->id,
-            'content' => 'nullable|string',
+            'excerpt' => 'required|string|max:255',
+            'body' => 'required|string',
+            'image_url' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $page->update($validated);
+        if ($request->hasFile('image_url')) {
+            if ($post->image_url) {
+                Storage::delete('public/' . $post->image_url);
+            }
+            $validated['image_url'] = $request->file('image_url')->store('posts', 'public');
+        }
+        
+        $validated['slug'] = Str::slug($validated['title']);
 
-        return redirect()->route('admin.pages.index')->with('success', 'Halaman berhasil diperbarui.');
+        $post->update($validated);
+
+        return redirect()->route('admin.posts.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
-    // Method destroy tidak kita gunakan untuk halaman inti
-    public function destroy(Page $page) { abort(403); }
-    public function show(Page $page) { abort(404); }
+    /**
+     * Menghapus artikel dari database.
+     */
+    public function destroy(Post $post)
+    {
+        if ($post->image_url) {
+            Storage::delete('public/' . $post->image_url);
+        }
+        $post->delete();
+        return redirect()->route('admin.posts.index')->with('success', 'Artikel berhasil dihapus.');
+    }
 }
